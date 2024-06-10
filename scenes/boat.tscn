@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bruc3un5cgooy"]
+
+[ext_resource type="PackedScene" uid="uid://c2wu71kkx8fjw" path="res://Assets/beach/boat_a.glb" id="1_px523"]
+[ext_resource type="ArrayOccluder3D" uid="uid://bud8lg5k1kcx0" path="res://occs/boat.occ" id="2_67pl7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6dilr"]
+size = Vector3(3.33647, 0.798388, 1)
+
+[node name="StaticBody3D" type="StaticBody3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_px523")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.147545, 0.445851, 0)
+shape = SubResource("BoxShape3D_6dilr")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+occluder = ExtResource("2_67pl7")

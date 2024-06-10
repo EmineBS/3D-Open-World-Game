@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctyis3dlt4u1k"]
+
+[ext_resource type="PackedScene" uid="uid://b8t2lribrteg2" path="res://assets/beach/chinese_fireworks_shop.glb" id="1_ey2r5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7x6u3"]
+size = Vector3(12.7745, 13.2249, 17.5611)
+
+[node name="chinese_shop" type="StaticBody3D"]
+
+[node name="chinese_fireworks_shop" parent="." instance=ExtResource("1_ey2r5")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.872413, 5.51404, 3.02613)
+shape = SubResource("BoxShape3D_7x6u3")

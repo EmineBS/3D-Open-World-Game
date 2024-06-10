@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://if77uhvg5o0s"]
+
+[ext_resource type="PackedScene" uid="uid://dn80osttmiohp" path="res://assets/beach/a_shop_in_friedrichshain_berlin.glb" id="1_ilpub"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gmjvy"]
+size = Vector3(0.235321, 3.13986, 9.6264)
+
+[sub_resource type="QuadOccluder3D" id="QuadOccluder3D_nltk8"]
+size = Vector2(13.3576, 3.32924)
+
+[node name="friedShop" type="StaticBody3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_ilpub")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.38324, 0.918777, 2.38883)
+shape = SubResource("BoxShape3D_gmjvy")
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.53354, 0.863528, 1.97086)
+occluder = SubResource("QuadOccluder3D_nltk8")

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbjatsuhcw8r6"]
+
+[ext_resource type="PackedScene" uid="uid://c46acr11yunvh" path="res://assets/beach/the_old_curiosity_shop_2024.glb" id="1_3a1eq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e8re4"]
+size = Vector3(11.9797, 7.19887, 3.10632)
+
+[node name="old_shop" type="StaticBody3D"]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0, 0)
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_3a1eq")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.846848, 4.99932, 0.139587)
+shape = SubResource("BoxShape3D_e8re4")

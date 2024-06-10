@@ -1,0 +1,227 @@
+[gd_scene load_steps=34 format=3 uid="uid://bl4hhu8p2ss18"]
+
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_7jp02"]
+[ext_resource type="Environment" uid="uid://cmakaw42lq462" path="res://HDRI_Env.tres" id="2_od1ig"]
+[ext_resource type="PackedScene" uid="uid://dlwju0dgvxx2s" path="res://scenes/character.tscn" id="5_6r2er"]
+[ext_resource type="Script" path="res://addons/terrabrush/TerraBrush.cs" id="5_aqtyv"]
+[ext_resource type="PackedScene" uid="uid://di8vl2psaghic" path="res://scenes/car.tscn" id="6_a30gi"]
+[ext_resource type="Texture2D" uid="uid://bso10lx7ptqqq" path="res://assets/Ground068/Ground068_1K-JPG_Color.jpg" id="6_odmfx"]
+[ext_resource type="Texture2D" uid="uid://c12lr82jgpqle" path="res://assets/Ground068/Ground068_1K-JPG_NormalGL.jpg" id="7_2wtac"]
+[ext_resource type="Texture2D" uid="uid://dososc5kj7cek" path="res://assets/Ground068/Ground068_1K-JPG_Roughness.jpg" id="8_7unub"]
+[ext_resource type="Script" path="res://addons/terrabrush/Scripts/EditorResources/TextureSetResource.cs" id="9_m5vir"]
+[ext_resource type="Texture2D" uid="uid://cu5henojpn300" path="res://assets/Ground062/Ground062S_1K-JPG_Color.jpg" id="10_62mmm"]
+[ext_resource type="Script" path="res://addons/terrabrush/Scripts/EditorResources/TextureSetsResource.cs" id="10_abwe8"]
+[ext_resource type="Texture2D" uid="uid://xg4srg0xxre7" path="res://assets/Ground062/Ground062S_1K-JPG_NormalGL.jpg" id="11_1d7b7"]
+[ext_resource type="Texture2D" uid="uid://b6xqg5wmi7xpq" path="res://assets/Ground062/Ground062S_1K-JPG_Roughness.jpg" id="12_iii5b"]
+[ext_resource type="Texture2D" uid="uid://o2ujm8gufnbt" path="res://assets/Ground054/Ground054_1K-JPG_Color.jpg" id="13_n3clg"]
+[ext_resource type="Texture2D" uid="uid://dmyc3xrd6q450" path="res://assets/Ground054/Ground054_1K-JPG_NormalGL.jpg" id="14_xmgum"]
+[ext_resource type="Texture2D" uid="uid://iqx6qejs1fij" path="res://assets/Ground054/Ground054_1K-JPG_Roughness.jpg" id="15_yx3rp"]
+[ext_resource type="Texture2D" uid="uid://cn00evueq8xgx" path="res://assets/Asphalt/Asphalt026C_1K-JPG_Color.jpg" id="16_w52ee"]
+[ext_resource type="Texture2D" uid="uid://cyfkm1wrnx4hc" path="res://assets/Asphalt/Asphalt026C_1K-JPG_NormalGL.jpg" id="17_rfyjm"]
+[ext_resource type="Texture2D" uid="uid://dqpy2mjke3ihm" path="res://assets/Asphalt/Asphalt026C_1K-JPG_Roughness.jpg" id="18_l6icd"]
+[ext_resource type="Resource" uid="uid://c8vq7gh7vp6a6" path="res://assets/main_zones.tres" id="24_n7py2"]
+[ext_resource type="PackedScene" uid="uid://if77uhvg5o0s" path="res://scenes/fried_shop.tscn" id="28_7ep74"]
+[ext_resource type="PackedScene" uid="uid://ctyis3dlt4u1k" path="res://scenes/chinese_shop.tscn" id="29_htjws"]
+[ext_resource type="PackedScene" uid="uid://dyuiua5ocbfx4" path="res://scenes/shop.tscn" id="29_vy3wc"]
+[ext_resource type="PackedScene" uid="uid://cbjatsuhcw8r6" path="res://scenes/old_shop.tscn" id="30_15647"]
+[ext_resource type="Script" path="res://addons/terrabrush/Scripts/EditorResources/WaterResource.cs" id="47_ypisx"]
+[ext_resource type="PackedScene" uid="uid://ctl6c3uy282l6" path="res://scenes/beach_umbrella.tscn" id="58_xi6bl"]
+[ext_resource type="PackedScene" uid="uid://bruc3un5cgooy" path="res://scenes/boat.tscn" id="60_oaq4b"]
+
+[sub_resource type="Resource" id="Resource_rj6qq"]
+script = ExtResource("9_m5vir")
+Name = "Grass"
+AlbedoTexture = ExtResource("6_odmfx")
+NormalTexture = ExtResource("7_2wtac")
+RoughnessTexture = ExtResource("8_7unub")
+TextureDetail = -1
+
+[sub_resource type="Resource" id="Resource_ts7fq"]
+script = ExtResource("9_m5vir")
+Name = "Ground"
+AlbedoTexture = ExtResource("10_62mmm")
+NormalTexture = ExtResource("11_1d7b7")
+RoughnessTexture = ExtResource("12_iii5b")
+TextureDetail = -1
+
+[sub_resource type="Resource" id="Resource_03bbo"]
+script = ExtResource("9_m5vir")
+Name = "YellowGround"
+AlbedoTexture = ExtResource("13_n3clg")
+NormalTexture = ExtResource("14_xmgum")
+RoughnessTexture = ExtResource("15_yx3rp")
+TextureDetail = -1
+
+[sub_resource type="Resource" id="Resource_y8erq"]
+script = ExtResource("9_m5vir")
+Name = "Asphalt"
+AlbedoTexture = ExtResource("16_w52ee")
+NormalTexture = ExtResource("17_rfyjm")
+RoughnessTexture = ExtResource("18_l6icd")
+TextureDetail = -1
+
+[sub_resource type="Resource" id="Resource_2bwug"]
+script = ExtResource("10_abwe8")
+TextureSets = [SubResource("Resource_rj6qq"), SubResource("Resource_ts7fq"), SubResource("Resource_03bbo"), SubResource("Resource_y8erq")]
+
+[sub_resource type="Resource" id="Resource_d8kfw"]
+script = ExtResource("47_ypisx")
+WaterFactor = 1.0
+WaterInnerOffset = 0.2
+WaterColor = Color(0.365609, 0.509459, 1, 1)
+WaterFresnelColor = Color(0.230273, 0.354459, 0.999979, 1)
+WaterMetallic = 0.2
+WaterRoughness = 0.0
+WaterTimeScale = 0.1
+WaterStrength = 0.4
+WaterNoiseScale = 10.0
+WaterHeightScale = 0.15
+WaterColorDeep = Color(0.193327, 0.286776, 0.999964, 1)
+WaterColorShallow = Color(0.444432, 0.581835, 1, 1)
+WaterBeersLaw = 2.0
+WaterDepthOffset = -0.75
+WaterEdgeScale = 0.25
+WaterNear = 0.5
+WaterFar = 100.0
+WaterEdgeColor = Color(0.712495, 0.792544, 1, 1)
+VisualInstanceLayers = 1
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_7jp02")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("2_od1ig")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(-0.707107, -0.5, -0.5, 0, -0.707107, 0.707107, -0.707107, 0.5, 0.5, -86.3745, 283.164, 177.068)
+light_energy = 0.1
+shadow_enabled = true
+directional_shadow_max_distance = 10.0
+
+[node name="car" parent="." instance=ExtResource("6_a30gi")]
+transform = Transform3D(0.80237, 0, -0.596827, 0, 1, 0, 0.596827, 0, 0.80237, -89.9326, 2.55508, 19.5729)
+
+[node name="Character" parent="." instance=ExtResource("5_6r2er")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -99.0302, 1.45051, -2.05749)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TerraBrush" type="Node3D" parent="."]
+script = ExtResource("5_aqtyv")
+DataPath = "res://Main"
+LODLevels = 2
+LODRowsPerLevel = 50
+TextureSets = SubResource("Resource_2bwug")
+TextureDetail = 8
+Foliages = []
+Objects = []
+WaterDefinition = SubResource("Resource_d8kfw")
+TerrainZones = ExtResource("24_n7py2")
+metadata/_edit_lock_ = true
+
+[node name="Building" type="Node3D" parent="TerraBrush"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5, 0, -23.5)
+
+[node name="Shop" parent="TerraBrush/Building" instance=ExtResource("29_vy3wc")]
+transform = Transform3D(2.32831e-10, 0, 0.01, 0, 0.01, 0, -0.01, 0, 2.32831e-10, -86.7991, 7.77187, -71.3528)
+
+[node name="Shop7" parent="TerraBrush/Building" instance=ExtResource("29_vy3wc")]
+transform = Transform3D(2.32831e-10, 0, 0.01, 0, 0.01, 0, -0.01, 0, 2.32831e-10, -86.7991, 7.77187, -71.3528)
+
+[node name="Shop4" parent="TerraBrush/Building" instance=ExtResource("29_vy3wc")]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, -49.4568, 7.77187, -83.642)
+
+[node name="Shop8" parent="TerraBrush/Building" instance=ExtResource("29_vy3wc")]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 2.58597, 7.77187, -83.3216)
+
+[node name="Shop2" parent="TerraBrush/Building" instance=ExtResource("29_vy3wc")]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, -101.144, 7.77187, -18.8415)
+
+[node name="Shop6" parent="TerraBrush/Building" instance=ExtResource("29_vy3wc")]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, -101.144, 7.77187, -18.8415)
+
+[node name="Shop3" parent="TerraBrush/Building" instance=ExtResource("29_vy3wc")]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, -101.144, 7.77187, 33.0854)
+
+[node name="friedShop" parent="TerraBrush/Building" instance=ExtResource("28_7ep74")]
+transform = Transform3D(-2, 1.22064e-09, 1.74841e-07, 0, 1.99995, -0.0139625, -1.74846e-07, -0.0139625, -1.99995, -91.1437, 1.44, 13.985)
+
+[node name="Shop5" parent="TerraBrush/Building" instance=ExtResource("29_vy3wc")]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, -105.214, 7.77187, 84.4747)
+
+[node name="friedShop5" parent="TerraBrush/Building" instance=ExtResource("28_7ep74")]
+transform = Transform3D(-2, 1.22064e-09, 1.74841e-07, 0, 1.99995, -0.0139625, -1.74846e-07, -0.0139625, -1.99995, -95.2137, 1.44, 65.3743)
+
+[node name="friedShop2" parent="TerraBrush/Building" instance=ExtResource("28_7ep74")]
+transform = Transform3D(-2, 1.22064e-09, 1.74841e-07, 0, 1.99995, -0.0139625, -1.74846e-07, -0.0139625, -1.99995, -90.981, 1.44, -37.9915)
+
+[node name="friedShop3" parent="TerraBrush/Building" instance=ExtResource("28_7ep74")]
+transform = Transform3D(2.62268e-07, 0.0139625, 1.99995, 8.14188e-17, 1.99995, -0.0139625, -2, 1.83096e-09, 2.62262e-07, -82.7972, 1.44, -86.2853)
+
+[node name="friedShop4" parent="TerraBrush/Building" instance=ExtResource("28_7ep74")]
+transform = Transform3D(2.62268e-07, 0.0139625, 1.99995, 8.14188e-17, 1.99995, -0.0139625, -2, 1.83096e-09, 2.62262e-07, -31.0462, 1.44, -85.1101)
+
+[node name="chinese_shop" parent="TerraBrush/Building" instance=ExtResource("29_htjws")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.4881, 0.138908, -95.0076)
+
+[node name="chinese_shop2" parent="TerraBrush/Building" instance=ExtResource("29_htjws")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -95.686, -0.068768, 94.0335)
+
+[node name="old_shop" parent="TerraBrush/Building" instance=ExtResource("30_15647")]
+transform = Transform3D(-5.46392e-08, 0, 1.25, 0, 1.25, 0, -1.25, 0, -5.46392e-08, -93.2537, -1.3695, 42.8154)
+
+[node name="old_shop2" parent="TerraBrush/Building" instance=ExtResource("30_15647")]
+transform = Transform3D(-5.46392e-08, 0, 1.25, 0, 1.25, 0, -1.25, 0, -5.46392e-08, -89.2357, -1.45535, -9.08012)
+
+[node name="old_shop4" parent="TerraBrush/Building" instance=ExtResource("30_15647")]
+transform = Transform3D(1.25, 0, 7.10543e-15, 0, 1.25, 0, -7.10543e-15, 0, 1.25, -60.1153, -1.45535, -84.025)
+
+[node name="old_shop3" parent="TerraBrush/Building" instance=ExtResource("30_15647")]
+transform = Transform3D(-5.46392e-08, 0, 1.25, 0, 1.25, 0, -1.25, 0, -5.46392e-08, -88.9879, -1.45535, -60.7104)
+
+[node name="old_shop5" parent="TerraBrush/Building" instance=ExtResource("30_15647")]
+transform = Transform3D(1.25, 0, 7.10543e-15, -2.16617e-16, 1.24942, 0.0381077, -7.10212e-15, -0.0381077, 1.24942, -8.09324, -1.45535, -82.8471)
+
+[node name="umbrellas" type="Node3D" parent="."]
+
+[node name="beachUmbrella" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, 39.4235, 0, 10.3849)
+
+[node name="beachUmbrella2" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(-0.258819, 0, 0.965926, 0, 1, 0, -0.965926, 0, -0.258819, 38.1255, 0.0679052, -8.2924)
+
+[node name="beachUmbrella3" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 29.3178, 0.0296941, -28.6257)
+
+[node name="beachUmbrella4" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(-0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, 13.4731, 0.0130802, -42.4771)
+
+[node name="beachUmbrella5" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(-1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -9.01377, 0.0130802, -46.0837)
+
+[node name="beachUmbrella6" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(-1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -22.7649, 0.0130802, -45.4211)
+
+[node name="beachUmbrella7" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(-0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, -40.387, 0.0130802, -35.5658)
+
+[node name="beachUmbrella8" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(-0.258819, 0, -0.965926, 0, 1, 0, 0.965926, 0, -0.258819, -52.5754, 0.0130802, -20.1888)
+
+[node name="beachUmbrella9" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(-5.96046e-08, 0, -1, 0, 1, 0, 1, 0, -5.96046e-08, -52.5754, 0.0130802, 0.101845)
+
+[node name="beachUmbrella10" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -38.427, 0.0130802, 24.9112)
+
+[node name="beachUmbrella11" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, 1, -14.5784, 0.0130802, 42.0313)
+
+[node name="beachUmbrella12" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 11.1121, 0.0130802, 40.6236)
+
+[node name="beachUmbrella13" parent="umbrellas" instance=ExtResource("58_xi6bl")]
+transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, 30.5448, 0.0130802, 30.8907)
+
+[node name="StaticBody3D" parent="." instance=ExtResource("60_oaq4b")]
+transform = Transform3D(-8.74228e-08, 0, -2, 0, 2, 0, 2, 0, -8.74228e-08, 20.4361, -0.268524, 0)
