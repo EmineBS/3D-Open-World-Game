@@ -84,7 +84,6 @@ func _physics_process(delta):
 		playerNavigationState=playerNavigationStates.IDLE
 		blend_position = clamp(blend_position - blend_value, 0, blend_position)
 	
-			
 	$AnimationTree.set("parameters/velocity/blend_position", blend_position)
 	$AnimationTree.set("parameters/conditions/Jump", jumping==true)
 
