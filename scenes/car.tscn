@@ -493,6 +493,7 @@ shape = SubResource("ConvexPolygonShape3D_500pq")
 
 [node name="FrontLeft" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.10659, -0.374161, 1.94392)
+brake = 50.0
 use_as_traction = true
 use_as_steering = true
 wheel_roll_influence = 0.5
@@ -510,6 +511,7 @@ skeleton = NodePath("")
 
 [node name="FrontRight" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.11809, -0.374161, 1.94392)
+brake = 50.0
 use_as_traction = true
 use_as_steering = true
 wheel_roll_influence = 0.5

@@ -5,21 +5,21 @@
 [ext_resource type="PackedScene" uid="uid://dlwju0dgvxx2s" path="res://scenes/character.tscn" id="5_6r2er"]
 [ext_resource type="Script" path="res://addons/terrabrush/TerraBrush.cs" id="5_aqtyv"]
 [ext_resource type="PackedScene" uid="uid://di8vl2psaghic" path="res://scenes/car.tscn" id="6_a30gi"]
-[ext_resource type="Texture2D" uid="uid://bso10lx7ptqqq" path="res://assets/Ground068/Ground068_1K-JPG_Color.jpg" id="6_odmfx"]
-[ext_resource type="Texture2D" uid="uid://c12lr82jgpqle" path="res://assets/Ground068/Ground068_1K-JPG_NormalGL.jpg" id="7_2wtac"]
-[ext_resource type="Texture2D" uid="uid://dososc5kj7cek" path="res://assets/Ground068/Ground068_1K-JPG_Roughness.jpg" id="8_7unub"]
+[ext_resource type="Texture2D" uid="uid://cachparvvm5qr" path="res://assets/Ground068/Ground068_1K-JPG_Color.jpg" id="6_odmfx"]
+[ext_resource type="Texture2D" uid="uid://ddbhk0u53sv18" path="res://assets/Ground068/Ground068_1K-JPG_NormalGL.jpg" id="7_2wtac"]
+[ext_resource type="Texture2D" uid="uid://gqgv34abm6n2" path="res://assets/Ground068/Ground068_1K-JPG_Roughness.jpg" id="8_7unub"]
 [ext_resource type="Script" path="res://addons/terrabrush/Scripts/EditorResources/TextureSetResource.cs" id="9_m5vir"]
-[ext_resource type="Texture2D" uid="uid://cu5henojpn300" path="res://assets/Ground062/Ground062S_1K-JPG_Color.jpg" id="10_62mmm"]
+[ext_resource type="Texture2D" uid="uid://1rlxd7cu7c05" path="res://assets/Ground062/Ground062S_1K-JPG_Color.jpg" id="10_62mmm"]
 [ext_resource type="Script" path="res://addons/terrabrush/Scripts/EditorResources/TextureSetsResource.cs" id="10_abwe8"]
-[ext_resource type="Texture2D" uid="uid://xg4srg0xxre7" path="res://assets/Ground062/Ground062S_1K-JPG_NormalGL.jpg" id="11_1d7b7"]
-[ext_resource type="Texture2D" uid="uid://b6xqg5wmi7xpq" path="res://assets/Ground062/Ground062S_1K-JPG_Roughness.jpg" id="12_iii5b"]
-[ext_resource type="Texture2D" uid="uid://o2ujm8gufnbt" path="res://assets/Ground054/Ground054_1K-JPG_Color.jpg" id="13_n3clg"]
-[ext_resource type="Texture2D" uid="uid://dmyc3xrd6q450" path="res://assets/Ground054/Ground054_1K-JPG_NormalGL.jpg" id="14_xmgum"]
-[ext_resource type="Texture2D" uid="uid://iqx6qejs1fij" path="res://assets/Ground054/Ground054_1K-JPG_Roughness.jpg" id="15_yx3rp"]
-[ext_resource type="Texture2D" uid="uid://cn00evueq8xgx" path="res://assets/Asphalt/Asphalt026C_1K-JPG_Color.jpg" id="16_w52ee"]
-[ext_resource type="Texture2D" uid="uid://cyfkm1wrnx4hc" path="res://assets/Asphalt/Asphalt026C_1K-JPG_NormalGL.jpg" id="17_rfyjm"]
-[ext_resource type="Texture2D" uid="uid://dqpy2mjke3ihm" path="res://assets/Asphalt/Asphalt026C_1K-JPG_Roughness.jpg" id="18_l6icd"]
-[ext_resource type="Resource" uid="uid://c8vq7gh7vp6a6" path="res://assets/main_zones.tres" id="24_n7py2"]
+[ext_resource type="Texture2D" uid="uid://bhfaled5nno0b" path="res://assets/Ground062/Ground062S_1K-JPG_NormalGL.jpg" id="11_1d7b7"]
+[ext_resource type="Texture2D" uid="uid://d2203udn3swiv" path="res://assets/Ground062/Ground062S_1K-JPG_Roughness.jpg" id="12_iii5b"]
+[ext_resource type="Texture2D" uid="uid://bo3ns0wtg5y3t" path="res://assets/Ground054/Ground054_1K-JPG_Color.jpg" id="13_n3clg"]
+[ext_resource type="Texture2D" uid="uid://beowq7vwnpu5q" path="res://assets/Ground054/Ground054_1K-JPG_NormalGL.jpg" id="14_xmgum"]
+[ext_resource type="Texture2D" uid="uid://3snaq34q0wwf" path="res://assets/Ground054/Ground054_1K-JPG_Roughness.jpg" id="15_yx3rp"]
+[ext_resource type="Texture2D" uid="uid://otkcj3dhmuv3" path="res://assets/Asphalt/Asphalt026C_1K-JPG_Color.jpg" id="16_w52ee"]
+[ext_resource type="Texture2D" uid="uid://bp6ltr85g31mi" path="res://assets/Asphalt/Asphalt026C_1K-JPG_NormalGL.jpg" id="17_rfyjm"]
+[ext_resource type="Texture2D" uid="uid://cjqyloksivjs0" path="res://assets/Asphalt/Asphalt026C_1K-JPG_Roughness.jpg" id="18_l6icd"]
+[ext_resource type="Resource" uid="uid://c8vq7gh7vp6a6" path="res://main_zones.tres" id="24_n7py2"]
 [ext_resource type="PackedScene" uid="uid://if77uhvg5o0s" path="res://scenes/fried_shop.tscn" id="28_7ep74"]
 [ext_resource type="PackedScene" uid="uid://ctyis3dlt4u1k" path="res://scenes/chinese_shop.tscn" id="29_htjws"]
 [ext_resource type="PackedScene" uid="uid://dyuiua5ocbfx4" path="res://scenes/shop.tscn" id="29_vy3wc"]
@@ -99,7 +99,7 @@ shadow_enabled = true
 directional_shadow_max_distance = 10.0
 
 [node name="car" parent="." instance=ExtResource("6_a30gi")]
-transform = Transform3D(0.80237, 0, -0.596827, 0, 1, 0, 0.596827, 0, 0.80237, -89.9326, 2.55508, 19.5729)
+transform = Transform3D(-0.115682, 0, -0.993286, 0, 1, 0, 0.993286, 0, -0.115682, -103.968, 2.55508, 8.87195)
 
 [node name="Character" parent="." instance=ExtResource("5_6r2er")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -99.0302, 1.45051, -2.05749)
@@ -117,7 +117,7 @@ Foliages = []
 Objects = []
 WaterDefinition = SubResource("Resource_d8kfw")
 TerrainZones = ExtResource("24_n7py2")
-metadata/_edit_lock_ = true
+metadata/_edit_lock_ = false
 
 [node name="Building" type="Node3D" parent="TerraBrush"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5, 0, -23.5)
