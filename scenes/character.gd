@@ -10,9 +10,11 @@ var SPEED = 2
 var jumping = false
 var playerCarState
 var playerNavigationState
+var playerGunState
 
 enum playerCarStates {CANT_ENTER_CAR, CAN_ENTER_CAR, INCAR}
 enum playerNavigationStates {IDLE, WALKING, RUNNING}
+enum playerGunStates {N, P, R}
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -21,6 +23,8 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	playerCarState=playerCarStates.CANT_ENTER_CAR
 	playerNavigationState=playerNavigationStates.IDLE
+	playerGunState=playerGunStates.N
+	$AnimationTree.set("parameters/gun_states/transition_request", playerGunStates.keys()[playerGunState])
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -34,23 +38,50 @@ func _input(event):
 
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
+		
+	if Input.is_action_pressed("scrollUp"):
+		if playerGunState<playerGunStates.size()-1:
+			playerGunState=playerGunState+1
+			changeGun(playerGunState)
+			$AnimationTree.set("parameters/gun_states/transition_request", playerGunStates.keys()[playerGunState])
+	
+	if Input.is_action_pressed("scrollDown"):
+		if playerGunState>0:
+			playerGunState=playerGunState-1
+			changeGun(playerGunState)
+			$AnimationTree.set("parameters/gun_states/transition_request", playerGunStates.keys()[playerGunState])
 	
 func _physics_process(delta):
 	if !$CameraController/CameraTarget/Camera3D.current:
 		return
-	# Add the gravity.
+
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	else:
 		if jumping:
 			jumping=false
-			$AnimationTree.set("parameters/conditions/velocity", jumping==false)
-
-	# Handle jump.
+	
+	var gunState = playerGunStates.keys()[playerGunState]
+	
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		jumping=true
-	
+		$AnimationTree.set("parameters/jump"+gunState+"/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+
+	if gunState!="N":
+		var aimBlendAmount:float = $AnimationTree.get("parameters/aim"+gunState+"Blend/blend_amount")
+		if Input.is_action_pressed("aim") and is_on_floor():
+			var new_blend_amount = clamp(aimBlendAmount + 0.1, aimBlendAmount, 1.0)
+			$AnimationTree.set("parameters/aim"+gunState+"Blend/blend_amount", new_blend_amount)
+		#if Input.is_action_just_released("aim"):
+		elif aimBlendAmount>0.0:
+			var new_blend_amount = clamp(aimBlendAmount - 0.1, 0.0, aimBlendAmount)
+			$AnimationTree.set("parameters/aim"+gunState+"Blend/blend_amount", new_blend_amount)
+		
+		if Input.is_action_pressed("jab") and is_on_floor():
+			if Input.is_action_pressed("aim"):
+				$AnimationTree.set("parameters/shoot"+gunState+"/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+
 	if Input.is_action_pressed("run"):
 		SPEED = clamp(SPEED + 0.1, SPEED, 4)
 		playerNavigationState=playerNavigationStates.RUNNING
@@ -60,7 +91,7 @@ func _physics_process(delta):
 
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	var blend_position:float = $AnimationTree.get("parameters/velocity/blend_position")
+	var blend_position:float = $AnimationTree.get("parameters/move"+gunState+"/blend_position")
 	var blend_value = 0.03
 	if direction:
 		velocity.x = direction.x * SPEED
@@ -83,10 +114,15 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 		playerNavigationState=playerNavigationStates.IDLE
 		blend_position = clamp(blend_position - blend_value, 0, blend_position)
-	
-	$AnimationTree.set("parameters/velocity/blend_position", blend_position)
-	$AnimationTree.set("parameters/conditions/Jump", jumping==true)
+
+	$AnimationTree.set("parameters/move"+gunState+"/blend_position", blend_position)
 
 	move_and_slide()
 	
 	$CameraController.position=lerp($CameraController.position,position,0.1)
+
+func changeGun(ind):
+	var parent = $Armature/GeneralSkeleton/BoneAttachment3D
+	for child in parent.get_children():
+		child.visible = false
+	parent.get_child(ind).visible = true 

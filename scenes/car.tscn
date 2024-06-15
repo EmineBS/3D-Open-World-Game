@@ -478,7 +478,7 @@ size = Vector3(4.02623, 2.1547, 7.50823)
 
 [node name="car" type="VehicleBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
-mass = 50.0
+mass = 250.0
 gravity_scale = 2.0
 script = ExtResource("1_f3bd8")
 
@@ -493,14 +493,10 @@ shape = SubResource("ConvexPolygonShape3D_500pq")
 
 [node name="FrontLeft" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.10659, -0.374161, 1.94392)
-brake = 50.0
-use_as_traction = true
 use_as_steering = true
-wheel_roll_influence = 0.5
-wheel_rest_length = 0.2
-wheel_friction_slip = 1.0
-suspension_travel = 0.3
-suspension_stiffness = 40.0
+wheel_roll_influence = 0.0
+wheel_friction_slip = 1.5
+suspension_stiffness = 75.0
 suspension_max_force = 5000.0
 damping_compression = 0.5
 damping_relaxation = 0.5
@@ -511,14 +507,10 @@ skeleton = NodePath("")
 
 [node name="FrontRight" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.11809, -0.374161, 1.94392)
-brake = 50.0
-use_as_traction = true
 use_as_steering = true
-wheel_roll_influence = 0.5
-wheel_rest_length = 0.2
-wheel_friction_slip = 1.0
-suspension_travel = 0.3
-suspension_stiffness = 40.0
+wheel_roll_influence = 0.0
+wheel_friction_slip = 1.5
+suspension_stiffness = 75.0
 suspension_max_force = 5000.0
 damping_compression = 0.5
 damping_relaxation = 0.5
@@ -529,13 +521,12 @@ skeleton = NodePath("")
 
 [node name="BackRight" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.11809, -0.362175, -1.64491)
-brake = 50.0
+engine_force = 50.0
+brake = 100.0
 use_as_traction = true
-wheel_roll_influence = 0.01
-wheel_rest_length = 0.2
-wheel_friction_slip = 1.0
-suspension_travel = 0.3
-suspension_stiffness = 40.0
+wheel_roll_influence = 0.0
+wheel_friction_slip = 5.0
+suspension_stiffness = 75.0
 suspension_max_force = 10000.0
 damping_compression = 0.5
 damping_relaxation = 0.5
@@ -546,13 +537,12 @@ skeleton = NodePath("")
 
 [node name="BackLeft" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.11982, -0.362175, -1.64491)
-brake = 50.0
+engine_force = 50.0
+brake = 100.0
 use_as_traction = true
-wheel_roll_influence = 0.01
-wheel_rest_length = 0.2
-wheel_friction_slip = 1.0
-suspension_travel = 0.3
-suspension_stiffness = 40.0
+wheel_roll_influence = 0.0
+wheel_friction_slip = 5.0
+suspension_stiffness = 75.0
 suspension_max_force = 10000.0
 damping_compression = 0.5
 damping_relaxation = 0.5
