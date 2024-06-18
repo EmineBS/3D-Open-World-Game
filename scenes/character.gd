@@ -5,6 +5,8 @@ const JUMP_VELOCITY = 3
 @onready var camera = $CameraController/CameraTarget/Camera3D
 @onready var collision = $CollisionShape3D
 
+@onready var rifle = $Armature/GeneralSkeleton/BoneAttachment3D/rifle
+
 @export var sens = 0.2
 var SPEED = 2
 var jumping = false
@@ -15,6 +17,13 @@ var playerGunState
 enum playerCarStates {CANT_ENTER_CAR, CAN_ENTER_CAR, INCAR}
 enum playerNavigationStates {IDLE, WALKING, RUNNING}
 enum playerGunStates {N, P, R}
+
+var rifle_transform = {
+	"initPos"=Vector3(-2.065, 2.929, 1.018),
+	"initRot"=Vector3(-4.3, 4.7, 5.8),
+	"newPos"=Vector3(-1.163, 2.473, -1.631),
+	"newRot"=Vector3(-50.6, 13.5, -14.4)
+}
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -44,12 +53,14 @@ func _input(event):
 			playerGunState=playerGunState+1
 			changeGun(playerGunState)
 			$AnimationTree.set("parameters/gunStates/transition_request", playerGunStates.keys()[playerGunState])
+			$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
 	
 	if Input.is_action_pressed("scrollDown"):
 		if playerGunState>0:
 			playerGunState=playerGunState-1
 			changeGun(playerGunState)
 			$AnimationTree.set("parameters/gunStates/transition_request", playerGunStates.keys()[playerGunState])
+			$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
 	
 func _physics_process(delta):
 	if !$CameraController/CameraTarget/Camera3D.current:
@@ -67,18 +78,42 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 		#jumping=true
 		$AnimationTree.set("parameters/jumpTrigger/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	
+	match gunState:
+		"N":
+			$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
+		"P":
+			if Input.is_action_just_pressed("aim") and is_on_floor():
+				$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			
+			if Input.is_action_just_released("aim"):
+				$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FADE_OUT)
+			
+			if Input.is_action_just_pressed("jab"):
+				$AnimationTree.set("parameters/P/trigger/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			
+		"R":
+			var aimBlendAmount:float = $AnimationTree.get("parameters/R/aim/blend_amount")
+			
+			if Input.is_action_pressed("aim") and is_on_floor():
+				var new_blend_amount = clamp(aimBlendAmount + 0.1, aimBlendAmount, 1.0)
+				$AnimationTree.set("parameters/R/aim/blend_amount", new_blend_amount)
+				rifle.position=rifle_transform["initPos"]
+				rifle.rotation_degrees=rifle_transform["initRot"]
+				if Input.is_action_just_pressed("jab"):
+					$AnimationTree.set("parameters/R/trigger/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+			elif aimBlendAmount>0.0:
+				var new_blend_amount = clamp(aimBlendAmount - 0.1, 0.0, aimBlendAmount)
+				$AnimationTree.set("parameters/R/aim/blend_amount", new_blend_amount)
+				if new_blend_amount<0.5:
+					rifle.position=rifle_transform["newPos"]
+					rifle.rotation_degrees=rifle_transform["newRot"]
+			
+			if not $AnimationTree.get("parameters/result/active"):
+				$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+				
+			
 
-	if gunState!="N":
-		#var aimBlendAmount:float = $AnimationTree.get("parameters/aim"+gunState+"Blend/blend_amount")
-		if Input.is_action_just_pressed("aim") and is_on_floor():
-			$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-		if Input.is_action_just_released("aim"):
-		#elif aimBlendAmount>0.0:
-			$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FADE_OUT)
-		
-		if Input.is_action_pressed("jab") and is_on_floor():
-			if Input.is_action_pressed("aim"):
-				$AnimationTree.set("parameters/"+gunState+"/trigger/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 
 	if Input.is_action_pressed("run"):
 		SPEED = clamp(SPEED + 0.1, SPEED, 4)
