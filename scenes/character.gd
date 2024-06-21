@@ -3,6 +3,7 @@ extends CharacterBody3D
 const JUMP_VELOCITY = 3
 
 @onready var camera = $CameraController/CameraTarget/Camera3D
+@onready var cameraTarget = $CameraController/CameraTarget
 @onready var collision = $CollisionShape3D
 
 @onready var rifle = $Armature/GeneralSkeleton/BoneAttachment3D/rifle
@@ -23,6 +24,11 @@ var rifle_transform = {
 	"initRot"=Vector3(-4.3, 4.7, 5.8),
 	"newPos"=Vector3(-1.163, 2.473, -1.631),
 	"newRot"=Vector3(-50.6, 13.5, -14.4)
+}
+
+var camera_positions = {
+	"normalPos"=Vector3(0,2.1,1.75),
+	"aimingPos"=Vector3(-0.375,1.75,0)
 }
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -85,13 +91,20 @@ func _physics_process(delta):
 		"P":
 			if Input.is_action_just_pressed("aim") and is_on_floor():
 				$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
-			
+				
 			if Input.is_action_just_released("aim"):
 				$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FADE_OUT)
-			
+				
 			if Input.is_action_just_pressed("jab"):
 				$AnimationTree.set("parameters/P/trigger/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 			
+			if Input.is_action_pressed("aim"):
+				cameraTarget.position=lerp(cameraTarget.position,camera_positions["aimingPos"],0.1)
+				rotation.y=lerp_angle(rotation.y,$CameraController.rotation.y,0.25)
+				$Armature.rotation.y=lerp_angle($Armature.rotation.y,0,0.25)
+			else:
+				cameraTarget.position=lerp(cameraTarget.position,camera_positions["normalPos"],0.1)
+				
 		"R":
 			var aimBlendAmount:float = $AnimationTree.get("parameters/R/aim/blend_amount")
 			
@@ -102,6 +115,7 @@ func _physics_process(delta):
 				rifle.rotation_degrees=rifle_transform["initRot"]
 				if Input.is_action_just_pressed("jab"):
 					$AnimationTree.set("parameters/R/trigger/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+				
 			elif aimBlendAmount>0.0:
 				var new_blend_amount = clamp(aimBlendAmount - 0.1, 0.0, aimBlendAmount)
 				$AnimationTree.set("parameters/R/aim/blend_amount", new_blend_amount)
@@ -112,7 +126,12 @@ func _physics_process(delta):
 			if not $AnimationTree.get("parameters/result/active"):
 				$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 				
-			
+			if Input.is_action_pressed("aim"):
+				cameraTarget.position=lerp(cameraTarget.position,camera_positions["aimingPos"],0.1)
+				rotation.y=lerp_angle(rotation.y,$CameraController.rotation.y,0.25)
+				$Armature.rotation.y=lerp_angle($Armature.rotation.y,0,0.25)
+			else:
+				cameraTarget.position=lerp(cameraTarget.position,camera_positions["normalPos"],0.1)
 
 
 	if Input.is_action_pressed("run"):
@@ -130,8 +149,9 @@ func _physics_process(delta):
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 		
-		var body_rotation = atan2(-input_dir.x, -input_dir.y)
-		$Armature.rotation.y=lerp_angle($Armature.rotation.y,body_rotation,0.1)
+		if not Input.is_action_pressed("aim"):
+			var body_rotation = atan2(-input_dir.x, -input_dir.y)
+			$Armature.rotation.y=lerp_angle($Armature.rotation.y,body_rotation,0.1)
 		
 		rotation.y=lerp_angle(rotation.y,$CameraController.rotation.y,0.1)
 		
