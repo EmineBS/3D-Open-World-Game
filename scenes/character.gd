@@ -2,11 +2,14 @@ extends CharacterBody3D
 
 const JUMP_VELOCITY = 3
 
+@onready var BULLET = preload("res://scenes/bullet.tscn")
+
 @onready var camera = $CameraController/CameraTarget/Camera3D
 @onready var cameraTarget = $CameraController/CameraTarget
 @onready var collision = $CollisionShape3D
 @onready var skeleton = $Armature/GeneralSkeleton
 @onready var rifle = $Armature/GeneralSkeleton/BoneAttachment3D/rifle
+@onready var pistol = $Armature/GeneralSkeleton/BoneAttachment3D/pistol
 
 @export var sens = 0.2
 var SPEED = 2
@@ -35,10 +38,12 @@ var camera_positions = {
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
+	$CameraController/CameraTarget/RayCast3D.add_exception(self)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	playerCarState=playerCarStates.CANT_ENTER_CAR
 	playerNavigationState=playerNavigationStates.IDLE
 	playerGunState=playerGunStates.N
+	changeGun(playerGunState)
 	$AnimationTree.set("parameters/gunStates/transition_request", playerGunStates.keys()[playerGunState])
 
 func _input(event):
@@ -54,19 +59,19 @@ func _input(event):
 	if Input.is_action_just_pressed("quit"):
 		get_tree().quit()
 		
-	if Input.is_action_pressed("scrollUp"):
+	if Input.is_action_pressed("scrollUp") and not Input.is_action_pressed("aim"):
 		if playerGunState<playerGunStates.size()-1:
 			playerGunState=playerGunState+1
 			changeGun(playerGunState)
 			$AnimationTree.set("parameters/gunStates/transition_request", playerGunStates.keys()[playerGunState])
-			$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
+			$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FADE_OUT)
 	
-	if Input.is_action_pressed("scrollDown"):
+	if Input.is_action_pressed("scrollDown") and not Input.is_action_pressed("aim"):
 		if playerGunState>0:
 			playerGunState=playerGunState-1
 			changeGun(playerGunState)
 			$AnimationTree.set("parameters/gunStates/transition_request", playerGunStates.keys()[playerGunState])
-			$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
+			$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FADE_OUT)
 	
 func _physics_process(delta):
 	if !$CameraController/CameraTarget/Camera3D.current:
@@ -88,6 +93,7 @@ func _physics_process(delta):
 	match gunState:
 		"N":
 			$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
+		
 		"P":
 			if Input.is_action_just_pressed("aim") and is_on_floor():
 				$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
@@ -97,16 +103,29 @@ func _physics_process(delta):
 				
 			if Input.is_action_just_pressed("jab"):
 				var aim_target = $CameraController/CameraTarget/RayCast3D.get_collision_point()
+				if aim_target != Vector3.ZERO:
+					var bullet = BULLET.instantiate()
+					bullet.target=aim_target
+					pistol.get_node("Marker3D").add_child(bullet)
 				$AnimationTree.set("parameters/P/trigger/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 			
 			if Input.is_action_pressed("aim"):
+				$CanvasLayer/crosshair.visible=true
 				cameraTarget.position=lerp(cameraTarget.position,camera_positions["aimingPos"],0.1)
 				rotation.y=lerp_angle(rotation.y,$CameraController.rotation.y,0.25)
 				$Armature.rotation.y=lerp_angle($Armature.rotation.y,0,0.25)
+				var chest_rotation = Vector3.ZERO
+				if $CameraController.rotation_degrees.x<-5:
+					chest_rotation=deg_to_rad(5)+0.25
+				elif $CameraController.rotation_degrees.x>30:
+					chest_rotation=deg_to_rad(-30)+0.25
+				else:
+					chest_rotation=-$CameraController.rotation.x+0.25
 				var currentSkeleton = skeleton.get_bone_pose_rotation(2)
-				var newRotation = Quaternion(-$CameraController.rotation.x+0.25,currentSkeleton.y,currentSkeleton.z,currentSkeleton.w)
+				var newRotation = Quaternion(chest_rotation,currentSkeleton.y,currentSkeleton.z,currentSkeleton.w)
 				skeleton.set_bone_pose_rotation(2,newRotation)
 			else:
+				$CanvasLayer/crosshair.visible=false
 				cameraTarget.position=lerp(cameraTarget.position,camera_positions["normalPos"],0.1)
 				
 		"R":
@@ -117,8 +136,14 @@ func _physics_process(delta):
 				$AnimationTree.set("parameters/R/aim/blend_amount", new_blend_amount)
 				rifle.position=rifle_transform["initPos"]
 				rifle.rotation_degrees=rifle_transform["initRot"]
-				if Input.is_action_just_pressed("jab"):
+				if Input.is_action_pressed("jab") and rifle.can_shoot:
+					rifle.can_shoot=false
+					rifle.timer.start()
 					var aim_target = $CameraController/CameraTarget/RayCast3D.get_collision_point()
+					if aim_target != Vector3.ZERO:
+						var bullet = BULLET.instantiate()
+						bullet.target=aim_target
+						rifle.get_node("Marker3D").add_child(bullet)
 					$AnimationTree.set("parameters/R/trigger/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 				
 			elif aimBlendAmount>0.0:
@@ -132,13 +157,22 @@ func _physics_process(delta):
 				$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 				
 			if Input.is_action_pressed("aim"):
+				$CanvasLayer/crosshair.visible=true
 				cameraTarget.position=lerp(cameraTarget.position,camera_positions["aimingPos"],0.1)
 				rotation.y=lerp_angle(rotation.y,$CameraController.rotation.y,0.25)
 				$Armature.rotation.y=lerp_angle($Armature.rotation.y,0,0.25)
+				var chest_rotation = Vector3.ZERO
+				if $CameraController.rotation_degrees.x<-5:
+					chest_rotation=deg_to_rad(5)+0.25
+				elif $CameraController.rotation_degrees.x>30:
+					chest_rotation=deg_to_rad(-30)+0.25
+				else:
+					chest_rotation=-$CameraController.rotation.x+0.25
 				var currentSkeleton = skeleton.get_bone_pose_rotation(2)
-				var newRotation = Quaternion(-$CameraController.rotation.x+0.25,currentSkeleton.y,currentSkeleton.z,currentSkeleton.w)
+				var newRotation = Quaternion(chest_rotation,currentSkeleton.y,currentSkeleton.z,currentSkeleton.w)
 				skeleton.set_bone_pose_rotation(2,newRotation)
 			else:
+				$CanvasLayer/crosshair.visible=false
 				cameraTarget.position=lerp(cameraTarget.position,camera_positions["normalPos"],0.1)
 
 
@@ -185,5 +219,5 @@ func _physics_process(delta):
 func changeGun(ind):
 	var parent = $Armature/GeneralSkeleton/BoneAttachment3D
 	for child in parent.get_children():
-		child.visible = false
-	parent.get_child(ind).visible = true 
+		child.get_child(0).visible = false
+	parent.get_child(ind).get_child(0).visible = true 

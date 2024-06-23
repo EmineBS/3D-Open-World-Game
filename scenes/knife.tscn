@@ -1,5 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://dhau5yququwxv"]
+[gd_scene load_steps=12 format=3 uid="uid://dhau5yququwxv"]
 
+[ext_resource type="Script" path="res://scenes/knife.gd" id="1_08plf"]
 [ext_resource type="Texture2D" uid="uid://b51ig0f857cdd" path="res://assets/guns/dagger_knife_0.jpg" id="1_o8qpe"]
 [ext_resource type="Texture2D" uid="uid://dgvvfcetbaa70" path="res://assets/guns/dagger_knife_1.png" id="2_8sit3"]
 [ext_resource type="Texture2D" uid="uid://6jtgi438s4bf" path="res://assets/guns/dagger_knife_2.png" id="3_1c8po"]
@@ -121,6 +122,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_cnexd")
 
 [node name="knife" type="Node3D"]
+script = ExtResource("1_08plf")
 
 [node name="Sketchfab_Scene" type="Node3D" parent="."]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, 0, 0)
