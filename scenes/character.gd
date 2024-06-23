@@ -5,7 +5,7 @@ const JUMP_VELOCITY = 3
 @onready var camera = $CameraController/CameraTarget/Camera3D
 @onready var cameraTarget = $CameraController/CameraTarget
 @onready var collision = $CollisionShape3D
-
+@onready var skeleton = $Armature/GeneralSkeleton
 @onready var rifle = $Armature/GeneralSkeleton/BoneAttachment3D/rifle
 
 @export var sens = 0.2
@@ -71,7 +71,7 @@ func _input(event):
 func _physics_process(delta):
 	if !$CameraController/CameraTarget/Camera3D.current:
 		return
-
+	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	#else:
@@ -96,12 +96,16 @@ func _physics_process(delta):
 				$AnimationTree.set("parameters/result/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FADE_OUT)
 				
 			if Input.is_action_just_pressed("jab"):
+				var aim_target = $CameraController/CameraTarget/RayCast3D.get_collision_point()
 				$AnimationTree.set("parameters/P/trigger/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 			
 			if Input.is_action_pressed("aim"):
 				cameraTarget.position=lerp(cameraTarget.position,camera_positions["aimingPos"],0.1)
 				rotation.y=lerp_angle(rotation.y,$CameraController.rotation.y,0.25)
 				$Armature.rotation.y=lerp_angle($Armature.rotation.y,0,0.25)
+				var currentSkeleton = skeleton.get_bone_pose_rotation(2)
+				var newRotation = Quaternion(-$CameraController.rotation.x+0.25,currentSkeleton.y,currentSkeleton.z,currentSkeleton.w)
+				skeleton.set_bone_pose_rotation(2,newRotation)
 			else:
 				cameraTarget.position=lerp(cameraTarget.position,camera_positions["normalPos"],0.1)
 				
@@ -114,6 +118,7 @@ func _physics_process(delta):
 				rifle.position=rifle_transform["initPos"]
 				rifle.rotation_degrees=rifle_transform["initRot"]
 				if Input.is_action_just_pressed("jab"):
+					var aim_target = $CameraController/CameraTarget/RayCast3D.get_collision_point()
 					$AnimationTree.set("parameters/R/trigger/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 				
 			elif aimBlendAmount>0.0:
@@ -130,6 +135,9 @@ func _physics_process(delta):
 				cameraTarget.position=lerp(cameraTarget.position,camera_positions["aimingPos"],0.1)
 				rotation.y=lerp_angle(rotation.y,$CameraController.rotation.y,0.25)
 				$Armature.rotation.y=lerp_angle($Armature.rotation.y,0,0.25)
+				var currentSkeleton = skeleton.get_bone_pose_rotation(2)
+				var newRotation = Quaternion(-$CameraController.rotation.x+0.25,currentSkeleton.y,currentSkeleton.z,currentSkeleton.w)
+				skeleton.set_bone_pose_rotation(2,newRotation)
 			else:
 				cameraTarget.position=lerp(cameraTarget.position,camera_positions["normalPos"],0.1)
 
