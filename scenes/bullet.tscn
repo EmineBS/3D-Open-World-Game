@@ -87,10 +87,9 @@ shadow_mesh = SubResource("ArrayMesh_8jtlk")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3o6u3"]
 radius = 0.194568
-height = 1.07655
+height = 0.84477
 
-[node name="Bullet" type="StaticBody3D"]
-disable_mode = 1
+[node name="Bullet" type="Node3D"]
 script = ExtResource("1_ku8rl")
 
 [node name="bullet" type="Node3D" parent="."]
@@ -114,8 +113,10 @@ skeleton = NodePath("")
 wait_time = 3.0
 autostart = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.526123, 0.00137258)
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.423038, 0.00137258)
 shape = SubResource("CapsuleShape3D_3o6u3")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

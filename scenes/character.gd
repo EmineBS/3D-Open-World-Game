@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-const JUMP_VELOCITY = 3
+const JUMP_VELOCITY = 4
 
 @onready var BULLET = preload("res://scenes/bullet.tscn")
 
@@ -23,15 +23,15 @@ enum playerNavigationStates {IDLE, WALKING, RUNNING}
 enum playerGunStates {N, P, R}
 
 var rifle_transform = {
-	"initPos"=Vector3(-2.065, 2.929, 1.018),
-	"initRot"=Vector3(-4.3, 4.7, 5.8),
-	"newPos"=Vector3(-1.163, 2.473, -1.631),
-	"newRot"=Vector3(-50.6, 13.5, -14.4)
+	"initPos"=Vector3(-0.113, 0.117, 0.084),
+	"initRot"=Vector3(30.7, -4.6, 0.8),
+	"newPos"=Vector3(-0.037, 0.176, 0.005),
+	"newRot"=Vector3(3.7, -16.9, -18.1)
 }
 
 var camera_positions = {
 	"normalPos"=Vector3(0,2.1,1.75),
-	"aimingPos"=Vector3(-0.375,1.75,0)
+	"aimingPos"=Vector3(-0.375,1.75,0.13)
 }
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.

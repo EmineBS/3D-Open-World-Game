@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_7jp02"]
 [ext_resource type="Environment" uid="uid://cmakaw42lq462" path="res://HDRI_Env.tres" id="2_od1ig"]
-[ext_resource type="PackedScene" uid="uid://dlwju0dgvxx2s" path="res://scenes/character.tscn" id="5_6r2er"]
+[ext_resource type="PackedScene" uid="uid://4p6gq83oirwh" path="res://scenes/tommy.tscn" id="4_0a27u"]
 [ext_resource type="Script" path="res://addons/terrabrush/TerraBrush.cs" id="5_aqtyv"]
 [ext_resource type="PackedScene" uid="uid://di8vl2psaghic" path="res://scenes/car.tscn" id="6_a30gi"]
 [ext_resource type="Texture2D" uid="uid://cachparvvm5qr" path="res://assets/Ground068/Ground068_1K-JPG_Color.jpg" id="6_odmfx"]
@@ -99,20 +99,19 @@ shadow_enabled = true
 directional_shadow_max_distance = 10.0
 
 [node name="car" parent="." instance=ExtResource("6_a30gi")]
-transform = Transform3D(-0.115682, 0, -0.993286, 0, 1, 0, 0.993286, 0, -0.115682, -103.968, 2.55508, 8.87195)
+transform = Transform3D(-0.115682, 0, -0.993286, 0, 1, 0, 0.993286, 0, -0.115682, -98.6292, 2.55508, -70.7367)
 
-[node name="Character" parent="." instance=ExtResource("5_6r2er")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -99.0302, 1.45051, -2.05749)
+[node name="tommy" parent="." instance=ExtResource("4_0a27u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -99.2041, 0, -84.4097)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="TerraBrush" type="Node3D" parent="."]
 script = ExtResource("5_aqtyv")
 DataPath = "res://Main"
-LODLevels = 2
-LODRowsPerLevel = 50
+LODLevels = 1
 TextureSets = SubResource("Resource_2bwug")
-TextureDetail = 8
+TextureDetail = 5
 Foliages = []
 Objects = []
 WaterDefinition = SubResource("Resource_d8kfw")
