@@ -32,6 +32,13 @@ enabled=PackedStringArray("res://addons/terrabrush/plugin.cfg")
 
 import/fbx/enabled=false
 
+[importer_defaults]
+
+texture={
+"detect_3d/compress_to": 0,
+"mipmaps/generate": true
+}
+
 [input]
 
 jump={
@@ -107,8 +114,6 @@ scrollDown={
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
 occlusion_culling/use_occlusion_culling=true
 
 [terraBrush]

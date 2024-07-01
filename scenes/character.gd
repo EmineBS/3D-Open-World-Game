@@ -12,7 +12,7 @@ const JUMP_VELOCITY = 4
 @onready var pistol = $Armature/GeneralSkeleton/BoneAttachment3D/pistol
 
 @export var sens = 0.2
-var SPEED = 2
+var SPEED = 2.0
 var jumping = false
 var playerCarState
 var playerNavigationState
@@ -177,10 +177,10 @@ func _physics_process(delta):
 
 
 	if Input.is_action_pressed("run"):
-		SPEED = clamp(SPEED + 0.1, SPEED, 4)
+		SPEED = lerp(SPEED,4.0,0.1)
 		playerNavigationState=playerNavigationStates.RUNNING
 	else:
-		SPEED = clamp(SPEED - 0.1, 2, SPEED)
+		SPEED = lerp(SPEED,2.0,0.1)
 		playerNavigationState=playerNavigationStates.WALKING
 
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
@@ -204,6 +204,7 @@ func _physics_process(delta):
 				blend_position = clamp(blend_position + blend_value, blend_position, 0.5)
 		else:
 			blend_position = clamp(blend_position + blend_value, blend_position, 1)
+		
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)

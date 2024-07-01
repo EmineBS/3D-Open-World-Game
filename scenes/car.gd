@@ -10,8 +10,8 @@ const JUMP_VELOCITY = 4
 
 @export var sens = 0.2
 const MAX_STEER = 0.75
-const ENGINE_POWER = 1000
-const BRAKE = 100
+const ENGINE_POWER = 100
+const BRAKE = 10
 
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -33,9 +33,9 @@ func _physics_process(delta):
 	engine_force = Input.get_axis("backward", "forward") * ENGINE_POWER
 
 func _on_detection_body_entered(body):
-	if body.name=="Character":
+	if body.name=="tommy":
 		emit_signal("playerEnterCarArea")
 
 func _on_detection_body_exited(body):
-	if body.name=="Character":
+	if body.name=="tommy":
 		emit_signal("playerExitCarArea")
